@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather app</title>
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script> <!-- loading jQuery -->
+	<!-- JQuery libaray added thru CDN -->
+	<script scr="https://code.jquery.com/jquery-1.11.3.js"></script> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<meta name="author" content="Miguel Gomez">
+	<meta name="keywords" content = "web app, weather app"> 
+	<meta name="description" content="find the temperture near you">
+<script>
+	
+	$(document).ready(function (){	//load up the page before we start writing JavaScript
+		//delcare varibles
+		var lat, lon, api_url;
+
+		//check to see if the user's browser supports geolocation
+		if( "geolocation" in navigator){
+
+			
+			
+			$('#showTemp').on('click', function(){
+				navigator.geolocation.getCurrentPosition(gotLocation); //function to get the location, gotlocation is the name of the function
+				function gotLocation(position){
+					lat = position.coords.latitude;  // get latitude
+					lon = position.coords.longitude;  // get longitude
+					
+					//set up the API url
+					api_url = 'http://api.openweathermap.org/data/2.5/weather?lat=' +
+					lat + '&lon=' +
+					lon + '&units=metric&appid=01e897d769ce8f332aa7cf1193f3b766';
+
+					$.ajax({
+						url : api_url,
+						method : 'GET',
+						success : function (data){
+							var tempr = data.main.temp;
+							$('#result').text(tempr + ' deg Celsius');
+						}
+
+
+					});
+					
+
+
+
+
+				}
+
+
+
+			});
+	
+
+
+		} else{
+			alert('Your browser does not support geolocation. Bye');
+		}
+
+
+
+	});
+
+
+</script>
+
+
+</head>
+<body>
+
+	<div class="wrapper">
+		Weather Application<br>
+		What temperature is it at your exact location? Click the button and find out! <br>
+
+		<p id= "result">? deg Celsius</p>
+
+		<button id = "showTemp">Submit </button>
+
+
+
+	</div> <!-- end wrapper -->
+
+
+
+
+
+
+</body>
+</html>
